@@ -6,10 +6,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from .views import (
-    graphAPIView
+    CandidatesScoreHistAPIView
 )
 
 urlpatterns = [
-      url(r'^(?P<candidate_id>\d+)/disp/$', graphAPIView.as_view(), name='graph'), 
+    url(r'^$', CandidatesScoreHistAPIView.as_view(), name='candidatescorehist'),
+    # url(r'^(?P<candidate_id>\d+)/disp/$', graphAPIView.as_view(), name='graph'),
 ]
 

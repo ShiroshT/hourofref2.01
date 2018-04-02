@@ -42,6 +42,6 @@ urlpatterns = [
     url(r'^logout/$', auth_views.logout, name='logout'),
     url(r'^accounts/', include(('accounts.urls','accounts'), namespace='accounts')),
     url(r'^api/candidates/', include(('candidateapp.api.urls','candidateapp.api'), namespace='candiateapp-api')),
-    url(r'^api/graph/', include(('visualisation.api.urls', 'visualisation.api'), namespace='graph-api')),
+    url(r'^api/scorehist/', include(('visualisation.api.urls', 'visualisation.api'), namespace='graph-api')),
+    url(r'^graphs/', include(('visualisation.urls', 'visualisation'), namespace='graph-line')),
 ]
-# url(r'^reviews/', include(('reviews.urls', 'reviews'), namespace='reviews')),

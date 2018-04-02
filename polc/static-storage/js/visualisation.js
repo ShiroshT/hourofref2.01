@@ -1,60 +1,107 @@
+var url =  '/api/scorehist/'
+
+//d3.json(url, function (json) {
+//    console.log('test')
+//});
+
+
+var canvas = document.querySelector("canvas"),
+    context = canvas.getContext("2d");
+
 var margin = {top: 20, right: 20, bottom: 30, left: 50},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+    width = canvas.width - margin.left - margin.right,
+    height = canvas.height - margin.top - margin.bottom;
 
-var parseDate = d3.time.format("%Y-%m-%d").parse; // for dates like "2014-01-01"
-//var parseDate = d3.time.format("%Y-%m-%dT00:00:00Z").parse;  // for dates like "2014-01-01T00:00:00Z"
+var parseTime = d3.timeParse("%d-%b-%y");
 
-var x = d3.time.scale()
+var x = d3.scaleTime()
     .range([0, width]);
 
-var y = d3.scale.linear()
+var y = d3.scaleLinear()
     .range([height, 0]);
 
-var xAxis = d3.svg.axis()
-    .scale(x)
-    .orient("bottom");
+var line = d3.line()
+    .x(function(d) { return x(d.date); })
+    .y(function(d) { return y(d.close); })
+    .curve(d3.curveStep)
+    .context(context);
 
-var yAxis = d3.svg.axis()
-    .scale(y)
-    .orient("left");
+context.translate(margin.left, margin.top);
 
-var line = d3.svg.line()
-    .x(function(d) { return x(d.month); })
-    .y(function(d) { return y(d.count_items); });
+d3.json(url, function (d) {
+  d.date = parseTime(d.date);
+  d.close = +d.close;
+  return d;
+}).then(function(data) {
+  x.domain(d3.extent(data, function(d) { return d.date; }));
+  y.domain(d3.extent(data, function(d) { return d.close; }));
 
-var svg = d3.select("body").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  xAxis();
+  yAxis();
 
-d3.json("{% url "play_count_by_month" %}", function(error, data) {
-  data.forEach(function(d) {
-    d.month = parseDate(d.month);
-    d.count_items = +d.count_items;
+  context.beginPath();
+  line(data);
+  context.lineWidth = 1.5;
+  context.strokeStyle = "steelblue";
+  context.stroke();
+});
+
+function xAxis() {
+  var tickCount = 10,
+      tickSize = 6,
+      ticks = x.ticks(tickCount),
+      tickFormat = x.tickFormat();
+
+  context.beginPath();
+  ticks.forEach(function(d) {
+    context.moveTo(x(d), height);
+    context.lineTo(x(d), height + tickSize);
+  });
+  context.strokeStyle = "black";
+  context.stroke();
+
+  context.textAlign = "center";
+  context.textBaseline = "top";
+  ticks.forEach(function(d) {
+    context.fillText(tickFormat(d), x(d), height + tickSize);
+  });
+}
+
+function yAxis() {
+  var tickCount = 10,
+      tickSize = 6,
+      tickPadding = 3,
+      ticks = y.ticks(tickCount),
+      tickFormat = y.tickFormat(tickCount);
+
+  context.beginPath();
+  ticks.forEach(function(d) {
+    context.moveTo(0, y(d));
+    context.lineTo(-6, y(d));
+  });
+  context.strokeStyle = "black";
+  context.stroke();
+
+  context.beginPath();
+  context.moveTo(-tickSize, 0);
+  context.lineTo(0.5, 0);
+  context.lineTo(0.5, height);
+  context.lineTo(-tickSize, height);
+  context.strokeStyle = "black";
+  context.stroke();
+
+  context.textAlign = "right";
+  context.textBaseline = "middle";
+  ticks.forEach(function(d) {
+    context.fillText(tickFormat(d), -tickSize - tickPadding, y(d));
   });
 
-  x.domain(d3.extent(data, function(d) { return d.month; }));
-  y.domain(d3.extent(data, function(d) { return d.count_items; }));
+  context.save();
+  context.rotate(-Math.PI / 2);
+  context.textAlign = "right";
+  context.textBaseline = "top";
+  context.font = "bold 10px sans-serif";
+  context.fillText("Price (US$)", -10, 10);
+  context.restore();
+}
 
-  svg.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + height + ")")
-      .call(xAxis);
-
-  svg.append("g")
-      .attr("class", "y axis")
-      .call(yAxis)
-    .append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 6)
-      .attr("dy", ".71em")
-      .style("text-anchor", "end")
-      .text("Play count");
-
-  svg.append("path")
-      .datum(data)
-      .attr("class", "line")
-      .attr("d", line);
-});
