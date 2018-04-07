@@ -104,6 +104,10 @@ class CandidatesScoreManager(models.Manager):
                 score_up=finalscore)
         return finalscore
 
+class CandidateScoreHistManager(models.Manager):
+    def create_score_entry(self, candidate_id, score):
+        score_entry = self.create(candidate_id = candidate_id, score=score)
+        return score_entry
 
 class CandidatesWiki(models.Model):
     candidate_id = models.AutoField(primary_key=True)
@@ -140,14 +144,6 @@ class CandidateUserRelx(models.Model):
     updated = models.DateTimeField(auto_now=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     objects = CandidatesScoreManager()
-
-
-
-class CandidateScoreHistManager(models.Manager):
-    def create_score_entry(self, candidate_id, score):
-        score_entry = self.create(candidate_id = candidate_id, score=score)
-        return score_entry
-
 
 
 

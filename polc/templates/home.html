@@ -73,28 +73,31 @@
       <h2>Biggest Gainers and Losers </h2>
 
 
-          {% if user.is_authenticated %}
-                     <p class="display-4">Hello, {{ user.username }}</p>
-          {% else %}
-                     <a class="lead" href="{% url 'login' %}">Log in</a>
-          {% endif %}
+          <!--{% if user.is_authenticated %}-->
+                     <!--<p class="display-4">Hello, {{ user.username }}</p>-->
+          <!--{% else %}-->
+                     <!--<a class="lead" href="{% url 'login' %}">Log in</a>-->
+          <!--{% endif %}-->
 
 
    <hr/>
        </br>
       <h3>Gaining popularity! </h3>
       <div class="row">
+
         <div class="col-lg-4 col-sm-6 portfolio-item">
           <div class="card h-100">
             <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
             <div class="card-body">
               <h4 class="card-title">
-                <a href="#">Project One</a>
+                <a href="" id = "candidategain_name-0">Project One</a>
               </h4>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur eum quasi sapiente nesciunt? Voluptatibus sit, repellat sequi itaque deserunt, dolores in, nesciunt, illum tempora ex quae? Nihil, dolorem!</p>
+              <p class="card-text" id = "candidategain_summ-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur eum quasi sapiente nesciunt? Voluptatibus sit, repellat sequi itaque deserunt, dolores in, nesciunt, illum tempora ex quae? Nihil, dolorem!</p>
             </div>
           </div>
         </div>
+
+
         <div class="col-lg-4 col-sm-6 portfolio-item">
           <div class="card h-100">
             <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>

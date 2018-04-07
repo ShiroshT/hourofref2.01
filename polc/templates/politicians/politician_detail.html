@@ -1,7 +1,11 @@
 {% extends "base.html" %}
+<!--{% load static %}-->
 {% block title %}{{ block.super }} | detailed view{% endblock title %}
 
 <!-- https://docs.djangoproject.com/en/2.0/ref/templates/language/#template-inheritance -->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>-->
+<!--<script src="{% static 'js/visualisation.js' %}"></script>-->
+
 
 {% block content %}
  <!-- Page Content -->
@@ -70,6 +74,18 @@
     </div>
  -->
 
+
+
+        <div class='row'>
+            <!--<h1 id = "candidateId">{{ object.candidate_id }} </h1>-->
+                <div class='col-sm-6'>
+                    <canvas id="myChart" width="400" height="400"></canvas>
+                </div>
+                <div class='col-sm-6'>
+                    <canvas id="myChart2" width="400" height="400"></canvas>
+                </div>
+
+        </div>
     </div>
     <!-- /.container -->
  <!-- <hr /> -->

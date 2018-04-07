@@ -30,9 +30,27 @@ class CandidatesScoreHistAPIView(generics.ListAPIView):
 
 
 
-def get_data_candhist(request, *args, **kwargs):
-     data = CandidateScoreHist.objects.values()
-
-     return JsonResponse(data)
 
 
+
+class ChartData(APIView):
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, request, format=None):
+        qs_count = CandidateScoreHist.objects.all().count()
+        labels = ["Votes", "Blue", "Yellow", "Green", "Purple", "Orange"]
+        default_items = [qs_count , 23, 2, 3, 12, 2]
+        data = {
+            "labels": labels,
+            "default": default_items,
+        }
+        return Response(data)
+
+#
+# def get_data_candhist(request, *args, **kwargs):
+#      data = CandidateScoreHist.objects.values()
+#
+#      return JsonResponse(data)
+#
+#

@@ -43,5 +43,6 @@ urlpatterns = [
     url(r'^accounts/', include(('accounts.urls','accounts'), namespace='accounts')),
     url(r'^api/candidates/', include(('candidateapp.api.urls','candidateapp.api'), namespace='candiateapp-api')),
     url(r'^api/scorehist/', include(('visualisation.api.urls', 'visualisation.api'), namespace='graph-api')),
-    url(r'^graphs/', include(('visualisation.urls', 'visualisation'), namespace='graph-line')),
+    url(r'^api/charts/', include(('visualisation.api.urls', 'visualisation'), namespace='charts')),
+    url(r'^api/stats/', include(('statsapp.api.urls', 'stats'), namespace='stats-api')),
 ]

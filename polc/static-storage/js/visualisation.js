@@ -1,107 +1,102 @@
-var url =  '/api/scorehist/'
 
-//d3.json(url, function (json) {
-//    console.log('test')
-//});
+var endpoint = '/api/charts/data/'
+var defaultData = []
+var labels = [];
 
 
-var canvas = document.querySelector("canvas"),
-    context = canvas.getContext("2d");
 
-var margin = {top: 20, right: 20, bottom: 30, left: 50},
-    width = canvas.width - margin.left - margin.right,
-    height = canvas.height - margin.top - margin.bottom;
+//function testsing(){
+//var x = document.getElementById("candidateId").firstChild;
+//
+//console.log(' I am here', x.nodeValue )
+//
+//
+//}
 
-var parseTime = d3.timeParse("%d-%b-%y");
 
-var x = d3.scaleTime()
-    .range([0, width]);
+$.ajax({
+    method: "GET",
+    url: endpoint,
+    success: function(data){
+        labels = data.labels
+        defaultData = data.default
+        setChart()
 
-var y = d3.scaleLinear()
-    .range([height, 0]);
+    },
+    error: function(error_data){
+        console.log("error")
+        console.log(error_data)
+    }
+})
 
-var line = d3.line()
-    .x(function(d) { return x(d.date); })
-    .y(function(d) { return y(d.close); })
-    .curve(d3.curveStep)
-    .context(context);
+    function setChart(){
+        var ctx = document.getElementById("myChart");
+        var ctx2 = document.getElementById("myChart2");
 
-context.translate(margin.left, margin.top);
+        var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: '# of Votes',
+                data: defaultData,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255,99,132,1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        }
+                    }]
+                }
+            }
+        });
 
-d3.json(url, function (d) {
-  d.date = parseTime(d.date);
-  d.close = +d.close;
-  return d;
-}).then(function(data) {
-  x.domain(d3.extent(data, function(d) { return d.date; }));
-  y.domain(d3.extent(data, function(d) { return d.close; }));
+        var myChart = new Chart(ctx2, {
+            type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: '# of Votes',
+                        data: defaultData,
 
-  xAxis();
-  yAxis();
-
-  context.beginPath();
-  line(data);
-  context.lineWidth = 1.5;
-  context.strokeStyle = "steelblue";
-  context.stroke();
-});
-
-function xAxis() {
-  var tickCount = 10,
-      tickSize = 6,
-      ticks = x.ticks(tickCount),
-      tickFormat = x.tickFormat();
-
-  context.beginPath();
-  ticks.forEach(function(d) {
-    context.moveTo(x(d), height);
-    context.lineTo(x(d), height + tickSize);
-  });
-  context.strokeStyle = "black";
-  context.stroke();
-
-  context.textAlign = "center";
-  context.textBaseline = "top";
-  ticks.forEach(function(d) {
-    context.fillText(tickFormat(d), x(d), height + tickSize);
-  });
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero:true
+                            }
+                        }]
+                    }
+                }
+        });
 }
-
-function yAxis() {
-  var tickCount = 10,
-      tickSize = 6,
-      tickPadding = 3,
-      ticks = y.ticks(tickCount),
-      tickFormat = y.tickFormat(tickCount);
-
-  context.beginPath();
-  ticks.forEach(function(d) {
-    context.moveTo(0, y(d));
-    context.lineTo(-6, y(d));
-  });
-  context.strokeStyle = "black";
-  context.stroke();
-
-  context.beginPath();
-  context.moveTo(-tickSize, 0);
-  context.lineTo(0.5, 0);
-  context.lineTo(0.5, height);
-  context.lineTo(-tickSize, height);
-  context.strokeStyle = "black";
-  context.stroke();
-
-  context.textAlign = "right";
-  context.textBaseline = "middle";
-  ticks.forEach(function(d) {
-    context.fillText(tickFormat(d), -tickSize - tickPadding, y(d));
-  });
-
-  context.save();
-  context.rotate(-Math.PI / 2);
-  context.textAlign = "right";
-  context.textBaseline = "top";
-  context.font = "bold 10px sans-serif";
-  context.fillText("Price (US$)", -10, 10);
-  context.restore();
-}
-

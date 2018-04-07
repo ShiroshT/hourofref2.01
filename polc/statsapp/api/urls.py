@@ -6,12 +6,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from .views import (
-    CandidatesScoreHistAPIView,
-    ChartData
+    StatsDispAPIView,
 )
 
 urlpatterns = [
-    url(r'^data/$', ChartData.as_view(), name='vis_data'),
-    # url(r'^line_chart/$', CandidatesScoreHistAPIView.as_view(), name='hist'),
-    # url(r'^(?P<candidate_id>\d+)/disp/$', graphAPIView.as_view(), name='graph'),
+    url(r'^highscore/$', StatsDispAPIView.as_view(), name='highscores'),
 ]
