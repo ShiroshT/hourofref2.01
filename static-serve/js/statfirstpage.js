@@ -49,8 +49,11 @@ function gainesAttach(act){
                         }
                             newURL = newURL + candidateUrl
 
-                        console.log(act, candidateHeader, candidateSummary )
+
                 		candidateSum = truncateText(candidateSummary, 180, newURL)
+
+
+                        console.log(act, candidateHeader)
 
                 		document.getElementById(candidateHeader).innerHTML = candidateName
                 		document.getElementById(candidateBlu ).innerHTML = candidateSum

@@ -93,9 +93,6 @@ $(document.body).on("click", "#topic", function(e){
 
     console.log("urlx", scoreupUrl)
 
-    var elem = document.getElementById('candidateId');
-            console.log(elem);
-
     $.ajax({
         method:"GET",
         url: scoreupUrl,

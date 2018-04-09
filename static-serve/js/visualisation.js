@@ -3,7 +3,15 @@ var endpoint = '/api/charts/data/'
 var defaultData = []
 var labels = [];
 
-var x = document.getElementById("detail-candidate-name").getAttribute("{{ object.candiate_name }}");
+
+
+//function testsing(){
+//var x = document.getElementById("candidateId").firstChild;
+//
+//console.log(' I am here', x.nodeValue )
+//
+//
+//}
 
 
 $.ajax({
@@ -12,8 +20,8 @@ $.ajax({
     success: function(data){
         labels = data.labels
         defaultData = data.default
-        console.log('I ma her');
         setChart()
+
     },
     error: function(error_data){
         console.log("error")

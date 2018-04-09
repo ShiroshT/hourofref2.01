@@ -52,3 +52,25 @@ font-family: 'Libre Baskerville', serif;
 .font-lato {
   font-family: 'Lato', sans-serif;
 }
+
+.font-brand{
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 35px;
+    color: #74b9ff;
+}
+
+
+.navbar-brand {
+    position: relative;
+    background: url(../images/logo.png);
+    width: 100px;
+    left: 5px;
+    bottom: 8px;
+    background-size: contain;
+}
+
+
+.text-s{
+ color:#74b9ff;
+}

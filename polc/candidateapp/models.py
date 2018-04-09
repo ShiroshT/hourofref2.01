@@ -185,9 +185,7 @@ class Candidate(models.Model):
     reply = models.BooleanField(verbose_name='Is a reply?', default=False)
     updated = models.DateTimeField(auto_now=True)
     timestamp = models.DateTimeField(auto_now_add=True)
-    score = models.IntegerField()
-    score_up = models.IntegerField(settings.AUTH_USER_MODEL, blank=True)
-    score_down = models.IntegerField(settings.AUTH_USER_MODEL, blank=True)
+
     slug = models.TextField(max_length=15)
 
     # objects = CandidatesUserManager()

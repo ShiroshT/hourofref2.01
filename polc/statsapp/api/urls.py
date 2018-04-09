@@ -6,9 +6,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from .views import (
-    StatsDispAPIView,
+    StatsDispGainersAPIView,
+    StatsDispLosersAPIView
 )
 
 urlpatterns = [
-    url(r'^highscore/$', StatsDispAPIView.as_view(), name='highscores'),
+    url(r'^scoreup/$', StatsDispGainersAPIView.as_view(), name='highscores-gainers'),
+    url(r'^scoredown/$', StatsDispLosersAPIView.as_view(), name='highscores-loosers'),
 ]
